@@ -18,7 +18,7 @@ if (!question.trim()) return;
 try {
   setLoading(true);
 
-  const res = await axios.post("https://shikshapatri-ai-server.onrender.com", {
+  const res = await axios.post("https://shikshapatri-ai-server.onrender.com/ask", {
     question,
   });
 
