@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import "./Chatapp.css";
+import bgImage from "../assets/Swaminarayan-Bhagwan.jpg";
 
 function Chatapp() {
 const [question, setQuestion] = useState("");
@@ -21,14 +22,14 @@ try {
     question,
   });
 
-  console.log(res.data);
-
   if (res.data.success) {
     setData(res.data.output);
+  } else {
+    setData("No response received.");
   }
 } catch (error) {
-  console.error("Error:", error);
-  setData("Failed to get response from server.");
+  console.error(error);
+  setData("Failed to connect to server.");
 } finally {
   setLoading(false);
 }
@@ -36,25 +37,37 @@ try {
 
 };
 
-return ( <div className="chat-container"> <h1 className="chat-title">Gemini AI Chat Bot</h1>
+return (
+<div
+className="chat-container"
+style={{
+backgroundImage: `url(${bgImage})`,
+}}
+> <div className="overlay"></div>
 
+
+  <h1 className="chat-title">📖 Shikshapatri AI</h1>
 
   <div className="chat-grid">
     <form onSubmit={handleSubmit} className="chat-form">
       <textarea
         className="chat-textarea"
-        placeholder="Ask a question..."
+        placeholder="Shu puchvu che?"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
       />
 
       <button type="submit" className="chat-button">
-        {loading ? "Generating..." : "Create Content"}
+        {loading ? "Generating..." : "Ask"}
       </button>
     </form>
 
     <div className="chat-response">
-      <ReactMarkdown>{data}</ReactMarkdown>
+      {loading ? (
+        <h3>Generating Response...</h3>
+      ) : (
+        <ReactMarkdown>{data}</ReactMarkdown>
+      )}
     </div>
   </div>
 </div>
